@@ -23,8 +23,15 @@ export class Question {
     
     return fetch(`https://questions-form-41b2f.firebaseio.com/questions.json?auth=${token}`)
       .then(response => response.json())
-      .then(questions => {
-        console.log('Questions', questions);
+      .then(response => {
+        if (response && response.error){
+          return `<p class="error">${response.error}</p>`
+        }
+
+        return response ? Object.keys(response).map(key => ({
+          ...response[key],
+          id: key
+        })) : []
       })
   }
 
@@ -37,6 +44,12 @@ export class Question {
 
     const list = document.getElementById('list')
     list.innerHTML = html
+  }
+
+  static listToHTML(questions) {
+    return questions.length
+    ? `<ol>${questions.map(q => `<li>${q.text}</li>`).join('')}</ol>`
+    : '<p>Вопросов пока нет</p>'
   }
 }
 

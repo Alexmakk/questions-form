@@ -73,3 +73,7 @@
  .modal .modal-content {
    padding: 1rem;
  }
+
+ .error {
+   color: red;
+ }
